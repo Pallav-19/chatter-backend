@@ -8,4 +8,6 @@ const loginValidator = require("../middlewares/validators/loginValidator");
 const login = require("../controllers/auth/login");
 router.post("/login", loginValidator, login);
 
+const tokenValidator = require("../middlewares/validators/tokenValidator");
+
 module.exports = router;

@@ -11,9 +11,7 @@ module.exports = (req, res) => {
     errors.array().forEach((error) => {
       message.push(error.msg);
     });
-    return res
-      .status(400)
-      .json({ message: message.toString(), success: success });
+    return res.json({ message: message.toString(), success: success });
   }
   if (req.body) {
     console.log(req.body);
@@ -21,46 +19,55 @@ module.exports = (req, res) => {
       .then((founduser) => {
         console.log(founduser);
         if (founduser) {
-          let comparison = bcryptjs.compare(
+          bcryptjs.compare(
             req.body.password,
-            founduser.password
+            founduser.password,
+            function (err, data) {
+              if (!err) {
+                if (data) {
+                  const token = jwt.sign(
+                    {
+                      userId: founduser._id,
+                      email: founduser.email,
+                      name: founduser.name,
+                    },
+                    process.env.JWT_SECRET
+                  );
+                  success = true;
+                  res.status(200).json({
+                    message: "login successfull",
+                    token: token,
+                    success: success,
+                  });
+                } else {
+                  res.json({
+                    message: "Password did not match",
+                    success: success,
+                  });
+                }
+              } else {
+                res.json({
+                  message: err.message,
+                  success: success,
+                });
+              }
+            }
           );
-          if (comparison) {
-            const token = jwt.sign(
-              {
-                userId: founduser._id,
-                email: founduser.email,
-                name: founduser.name,
-              },
-              process.env.JWT_SECRET
-            );
-            success = true;
-            res.status(200).json({
-              message: "login successfull",
-              token: token,
-              success: success,
-            });
-          } else {
-            res.status(400).json({
-              message: "Password did not match",
-              success: success,
-            });
-          }
         } else {
-          res.status(400).json({
+          res.json({
             message: "user not found!",
             success: success,
           });
         }
       })
       .catch((err) => {
-        res.status(404).json({
+        res.json({
           message: err.message,
           success: success,
         });
       });
   } else {
-    res.status(400).json({
+    res.json({
       message: "invalid data entered",
       success: success,
     });
