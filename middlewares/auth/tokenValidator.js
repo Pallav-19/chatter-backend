@@ -7,7 +7,7 @@ const tokenValidator = async (req, res, next) => {
       req.user = jwt.verify(authToken, process.env.JWT_SECET);
       next();
     } catch (err) {
-      res
+      return res
         .json({ message: "You are not Authorised! " + err, success: false })
         .status(400);
     }

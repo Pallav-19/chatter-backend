@@ -30,6 +30,7 @@ module.exports = (req, res) => {
                       userId: founduser._id,
                       email: founduser.email,
                       name: founduser.name,
+                      image: founduser.image,
                     },
                     process.env.JWT_SECRET
                   );
