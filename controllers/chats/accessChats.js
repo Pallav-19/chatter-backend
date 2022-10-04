@@ -16,9 +16,9 @@ const accessChat = async (req, res) => {
     ],
   })
     .populate("users", "-password")
-    .populate("latestMessage");
+    .populate("lastMessage");
   isChat = await User.populate(isChat, {
-    path: "latestMessage.sender",
+    path: "lastMessage.sender",
     select: "name pic email",
   });
   if (isChat.length > 0) {
@@ -27,8 +27,8 @@ const accessChat = async (req, res) => {
       .status(200);
   } else {
     let chatData = {
-      chatName: "sender",
-      isGroupChat: false,
+      name: "sender",
+      isGroup: false,
       users: [req.user.userId, toUserId],
     };
     try {

@@ -1,14 +1,18 @@
 const jwt = require("jsonwebtoken");
 
 const tokenValidator = async (req, res, next) => {
-  if (req.headers.authorisation) {
+  if (await req.headers.authorisation) {
+    console.log(req.headers.authorisation);
+    console.log("in it");
     try {
-      const authToken = req.headers.authorisation;
-      req.user = jwt.verify(authToken, process.env.JWT_SECET);
+      console.log("inside it");
+      const authToken = await req.headers.authorisation;
+      req.user = jwt.verify(authToken, "BOOST_IS_THE_SECRET_OF_MY_ENERGY");
       next();
     } catch (err) {
+      console.log(err.message);
       return res
-        .json({ message: "You are not Authorised! " + err, success: false })
+        .json({ message: "You are not Authorised! ", success: false })
         .status(400);
     }
   }

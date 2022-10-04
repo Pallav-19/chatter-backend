@@ -1,20 +1,19 @@
 const User = require("../../models/user");
 const Chat = require("../../models/chat");
 const getChats = async (req, res) => {
+  console.log("in get");
   try {
     Chat.find({ users: { $elemMatch: { $eq: req.user.userId } } })
       .populate("users", "-password")
-      .populate("groupAdmin", "-password")
-      .populate("latestMessage")
+      .populate("admin", "-password")
+      .populate("lastMessage")
       .sort({ updatedAt: -1 })
-      .then((results) => {
-        results = User.populate(results, {
-          path: "latestMessage.sender",
+      .then(async (results) => {
+        results = await User.populate(results, {
+          path: "lastMessage.sender",
           select: "name email pic",
         });
-        res
-          .json({ message: "Found Chats", chats: results, success: true })
-          .status(200);
+        res.send(results).status(200);
       });
   } catch (err) {
     res.json({ message: err.message, success: false }).status(400);
