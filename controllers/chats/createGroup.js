@@ -6,7 +6,8 @@ const createGroup = async (req, res) => {
       .json({ message: "Please Fill All The Fields", success: false })
       .status(400);
   }
-  let Users = JSON.parse(req.body.users);
+  let Users = (req.body.users);
+  console.log(Users);
   if (Users.length < 2) {
     return res.json({
       message:
@@ -14,13 +15,14 @@ const createGroup = async (req, res) => {
       success: false,
     });
   }
-  Users.push(req.user);
+  Users.push(req.user.userId);
+  console.log(Users)
   try {
     const groupChat = {
       name: req.body.name,
       users: Users,
       isGroup: true,
-      admin: req.user,
+      admin: req.user.userId,
     };
     let result = await Chat.create(groupChat);
     let finalresult = await Chat.findOne({ _id: result._id })
@@ -35,7 +37,8 @@ const createGroup = async (req, res) => {
       })
       .status(200);
   } catch (err) {
-    res.json({ message: err.message, success: false });
+    console.log(err);
+    res.json({ message: "Internal error", success: false });
   }
 };
 module.exports = createGroup;
