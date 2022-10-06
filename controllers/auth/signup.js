@@ -51,42 +51,34 @@ const signup = async (req, res, next) => {
                     });
                   })
                   .catch((err) => {
-                    res
-                      .status(400)
-                      .json({
-                        message: "Internal Error Occured! Try Again",
-                        success: success,
-                      });
+                    res.status(400).json({
+                      message: "Internal Error Occured! Try Again",
+                      success: success,
+                    });
                     console.log(err.message);
                   });
               } else {
-                res
-                  .status(400)
-                  .json({
-                    message: "Internal Error Occured! Try Again",
-                    success: success,
-                  });
+                res.status(400).json({
+                  message: "Internal Error Occured! Try Again",
+                  success: success,
+                });
                 console.log(err.message);
               }
             });
           } else {
-            res
-              .status(400)
-              .json({
-                message: "Internal Error Occured! Try Again",
-                success: success,
-              });
+            res.status(400).json({
+              message: "Internal Error Occured! Try Again",
+              success: success,
+            });
             console.log(err.message);
           }
         });
       }
     } else {
-      res
-        .status(400)
-        .json({
-          message: "Internal Error Occured! Try Again",
-          success: success,
-        });
+      res.status(400).json({
+        message: "Internal Error Occured! Try Again",
+        success: success,
+      });
       console.log(err.message);
     }
   });
