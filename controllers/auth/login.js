@@ -48,7 +48,7 @@ module.exports = (req, res) => {
                 }
               } else {
                 res.json({
-                  message: err.message,
+                  message: "An Internal Error Occured ! Try Again!",
                   success: success,
                 });
               }
@@ -63,7 +63,7 @@ module.exports = (req, res) => {
       })
       .catch((err) => {
         res.json({
-          message: err.message,
+          message: "An Internal Error Occured ! Try Again!",
           success: success,
         });
       });

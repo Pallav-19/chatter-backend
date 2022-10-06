@@ -45,7 +45,7 @@ const signup = async (req, res, next) => {
                     success = true;
                     res.status(201).json({
                       userData: user,
-                      message: "user saved successfully!",
+                      message: "You have registered successfully!",
                       success: success,
                       token: token,
                     });
@@ -53,21 +53,41 @@ const signup = async (req, res, next) => {
                   .catch((err) => {
                     res
                       .status(400)
-                      .json({ message: err.message, success: success });
+                      .json({
+                        message: "Internal Error Occured! Try Again",
+                        success: success,
+                      });
+                    console.log(err.message);
                   });
               } else {
                 res
                   .status(400)
-                  .json({ message: err.message, success: success });
+                  .json({
+                    message: "Internal Error Occured! Try Again",
+                    success: success,
+                  });
+                console.log(err.message);
               }
             });
           } else {
-            res.status(400).json({ message: err.message, success: success });
+            res
+              .status(400)
+              .json({
+                message: "Internal Error Occured! Try Again",
+                success: success,
+              });
+            console.log(err.message);
           }
         });
       }
     } else {
-      res.status(400).json({ message: err.message, success: success });
+      res
+        .status(400)
+        .json({
+          message: "Internal Error Occured! Try Again",
+          success: success,
+        });
+      console.log(err.message);
     }
   });
 };

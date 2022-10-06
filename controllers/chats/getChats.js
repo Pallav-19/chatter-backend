@@ -3,6 +3,7 @@ const Chat = require("../../models/chat");
 const getChats = async (req, res) => {
   console.log("in get");
   try {
+    console.log(req.user.userId);
     Chat.find({ users: { $elemMatch: { $eq: req.user.userId } } })
       .populate("users", "-password")
       .populate("admin", "-password")
@@ -14,9 +15,10 @@ const getChats = async (req, res) => {
           select: "name email pic",
         });
         res.send(results).status(200);
+        console.log(results.length);
       });
   } catch (err) {
-    res.json({ message: err.message, success: false }).status(400);
+    res.json({ message: "An Internal Error Occured ! Try Again!", success: false }).status(400);
   }
 };
 module.exports = getChats;

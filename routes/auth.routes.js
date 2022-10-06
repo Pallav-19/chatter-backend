@@ -8,6 +8,7 @@ const loginValidator = require("../middlewares/validators/loginValidator");
 const login = require("../controllers/auth/login");
 router.post("/login", loginValidator, login);
 
-
+const sendOTP = require("../controllers/auth/otp");
+router.post("/sendOTP", sendOTP);
 
 module.exports = router;
