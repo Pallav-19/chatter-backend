@@ -57,8 +57,8 @@ const sendOTP = async (req, res) => {
       const mailOptions = {
         from: process.env.EMAIL_ID,
         to: await req.body.emailOTP,
-        subject: "OTP verification from CHATTER!",
-        html: `<div><h1>Hey <em><b>${req.body.name}</b></em>, \n Welcome to <b>CHATTER!</b></h1> \n \n <h2>Your One Time Password is : <i> ${OTP}</i></h2></div>`,
+        subject: "Reset Password (Chatter)",
+        html: `<div><h1>Hey <em><b>${result.name}</b></em>, \n  </h1>  \n \n <h2>Your One Time Password for reseting your password is : <i> ${OTP}</i></h2></div>`,
       };
       await transporter
         .sendMail(mailOptions)
@@ -80,7 +80,7 @@ const sendOTP = async (req, res) => {
         });
     } else {
       res.json({
-        message: `User with Email address ${req.body.emailOTP} doesn't exists`,
+        message: `User with Email address ${req.body.emailOTP} doesn't exists ,Signup to continue!`,
         success: false,
       });
     }

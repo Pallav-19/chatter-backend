@@ -31,6 +31,7 @@ module.exports = (req, res) => {
                       email: founduser.email,
                       name: founduser.name,
                       image: founduser.image,
+                      LoginTime: new Date(),
                     },
                     process.env.JWT_SECRET
                   );

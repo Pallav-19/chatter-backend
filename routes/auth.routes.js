@@ -12,6 +12,6 @@ const sendOTP = require("../controllers/auth/otp");
 router.post("/sendOTP/:method", sendOTP);
 
 const changePassword = require("../controllers/auth/changePassword");
-router.patch("/changePassword", changePassword);
+router.put("/changePassword", changePassword);
 
 module.exports = router;

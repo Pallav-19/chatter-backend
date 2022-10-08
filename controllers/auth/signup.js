@@ -39,6 +39,7 @@ const signup = async (req, res, next) => {
                         userId: user._id,
                         email: user.email,
                         name: user.name,
+                        loginTime: new Date(),
                       },
                       process.env.JWT_SECRET
                     );
