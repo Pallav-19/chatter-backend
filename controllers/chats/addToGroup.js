@@ -1,13 +1,20 @@
 const Chat = require("../../models/chat");
 const addToGroup = async (req, res) => {
-  const { chatId, userId } = req.body;
-  const added = Chat.findByIdAndUpdate(
+  const { chatId, users } = req.body;
+
+  Chat.findByIdAndUpdate(
     chatId,
-    { $push: { users: userId } },
+    { $push: { users: { $each: users } } },
     { new: true }
   )
     .populate("users", "-password")
-    .populate("admin", "-password");
-  res.json({ message: "User Added", success: true, result: added });
+    .populate("admin", "-password")
+    .then((chat) => {
+      res.json({ message: "Users Added", success: true, chat });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.json({ message: "Internal Error", success: false });
+    });
 };
 module.exports = addToGroup;

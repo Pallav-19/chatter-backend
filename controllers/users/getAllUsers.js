@@ -1,7 +1,6 @@
 const User = require("../../models/user");
 
 const getAllUsers = async (req, res) => {
-  console.log("called");
   const keyword = (await req.query.search)
     ? {
         $or: [
@@ -10,9 +9,11 @@ const getAllUsers = async (req, res) => {
         ],
       }
     : {};
-  const users = await User.find(keyword).find({
-    _id: { $ne: req.user.userId },
-  });
+  const users = await User.find(keyword)
+    .find({
+      _id: { $ne: req.user.userId },
+    })
+    .select("-password");
   if (users.length > 0) {
     res.json({ message: "Users found! ", users, success: true });
     console.log(users);

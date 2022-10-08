@@ -11,10 +11,14 @@ const tokenValidator = async (req, res, next) => {
       next();
     } catch (err) {
       console.log(err.message);
-      return res
-        .json({ message: "You are not Authorised! ", success: false })
+      res
+        .json({ message: "You are not Authorised ! ", success: false })
         .status(400);
     }
+  } else {
+    return res
+      .json({ message: "You are not Authorised! ", success: false })
+      .status(400);
   }
 };
 module.exports = tokenValidator;
