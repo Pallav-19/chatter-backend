@@ -14,10 +14,10 @@ module.exports = (req, res) => {
     return res.json({ message: message.toString(), success: success });
   }
   if (req.body) {
-    console.log(req.body);
+    //console.log(req.body);
     User.findOne({ email: req.body.email })
       .then((founduser) => {
-        console.log(founduser);
+        //console.log(founduser);
         if (founduser) {
           bcryptjs.compare(
             req.body.password,

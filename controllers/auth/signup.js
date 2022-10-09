@@ -3,7 +3,7 @@ const bcryptjs = require("bcryptjs");
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const signup = async (req, res, next) => {
-  console.log(await req.body);
+  //console.log(await req.body);
   let success = false;
   errors = validationResult(await req);
   if (!(await errors.isEmpty())) {
@@ -18,7 +18,7 @@ const signup = async (req, res, next) => {
   User.findOne({ email: req.body.email }, (err, foundUser) => {
     if (!err) {
       if (foundUser) {
-        console.log("user found!");
+        //console.log("user found!");
         res.status(200).json({
           message: "User with same email address already exists!",
           success: success,
@@ -56,14 +56,14 @@ const signup = async (req, res, next) => {
                       message: "Internal Error Occured! Try Again",
                       success: success,
                     });
-                    console.log(err.message);
+                    //console.log(err.message);
                   });
               } else {
                 res.status(400).json({
                   message: "Internal Error Occured! Try Again",
                   success: success,
                 });
-                console.log(err.message);
+                //console.log(err.message);
               }
             });
           } else {
@@ -71,7 +71,7 @@ const signup = async (req, res, next) => {
               message: "Internal Error Occured! Try Again",
               success: success,
             });
-            console.log(err.message);
+            //console.log(err.message);
           }
         });
       }
@@ -80,7 +80,7 @@ const signup = async (req, res, next) => {
         message: "Internal Error Occured! Try Again",
         success: success,
       });
-      console.log(err.message);
+      //console.log(err.message);
     }
   });
 };

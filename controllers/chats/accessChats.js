@@ -3,7 +3,7 @@ const User = require("../../models/user");
 
 const accessChat = async (req, res) => {
   toUserId = req.body.userId;
-  console.log(req.body.userId);
+  //console.log(req.body.userId);
   if (!toUserId) {
     return res
       .json({ message: "User not received!", success: false })

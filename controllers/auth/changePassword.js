@@ -16,7 +16,7 @@ const changePassword = async (req, res) => {
                   { new: true }
                 )
                   .then((result) => {
-                    console.log(result);
+                    //console.log(result);
                     res.json({
                       message:
                         "Password update successfully! \n Login with the new password!",
@@ -35,7 +35,7 @@ const changePassword = async (req, res) => {
                   message: "Internal Error Occured! Try Again",
                   success: success,
                 });
-                console.log(err.message);
+                //console.log(err.message);
               }
             });
           } else {
@@ -43,7 +43,7 @@ const changePassword = async (req, res) => {
               message: "Internal Error Occured! Try Again",
               success: success,
             });
-            console.log(err.message);
+            //console.log(err.message);
           }
         });
       } else {
@@ -57,7 +57,7 @@ const changePassword = async (req, res) => {
         message: "Internal Error Occured! Try Again",
         success: success,
       });
-      console.log(err.message);
+      //console.log(err.message);
     }
   });
 };

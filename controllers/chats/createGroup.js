@@ -7,7 +7,7 @@ const createGroup = async (req, res) => {
       .status(400);
   }
   let Users = (req.body.users);
-  console.log(Users);
+  //console.log(Users);
   if (Users.length < 2) {
     return res.json({
       message:
@@ -16,7 +16,7 @@ const createGroup = async (req, res) => {
     });
   }
   Users.push(req.user.userId);
-  console.log(Users)
+  //console.log(Users)
   try {
     const groupChat = {
       name: req.body.name,

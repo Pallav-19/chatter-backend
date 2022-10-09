@@ -16,9 +16,9 @@ const getAllUsers = async (req, res) => {
     .select("-password");
   if (users.length > 0) {
     res.json({ message: "Users found! ", users, success: true });
-    console.log(users);
+    //console.log(users);
   } else {
-    console.log("not found");
+    //console.log("not found");
     res.json({ message: "Users not found!", users: [], success: false });
   }
 };

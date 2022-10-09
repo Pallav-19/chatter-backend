@@ -14,7 +14,7 @@ const getMessages = async (req, res) => {
             content: cryptr.decrypt(message._doc.content),
           };
         });
-        console.log(allmessages);
+        //console.log(allmessages);
         res
           .json({
             message: "messages found",
