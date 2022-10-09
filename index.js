@@ -1,9 +1,9 @@
 require("dotenv").config();
+require("colors");
 const express = require("express");
 const app = express();
-const dbconfig = require("./database.config.js");
+const mongoose = require("mongoose");
 const CORS = require("cors");
-const colors = require("colors");
 const bodyParser = require("body-parser");
 const userRoutes = require("./routes/user.routes");
 const authRoutes = require("./routes/auth.routes");
@@ -19,8 +19,18 @@ app.use("/api/chat", chatRoutes);
 app.use(notFound);
 app.use(errorHandler);
 const port = process.env.PORT;
-app.listen(port, () => {
-  console.log(`listening from port ${port}`.yellow);
-  console.log(`open at http://localhost:${port}`.underline.cyan);
-  dbconfig();
-});
+module.exports = mongoose
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("Atlas connected");
+    const server = app.listen(port, () => {
+      console.log(`listening from port ${port}`.yellow);
+      console.log(`open at http://localhost:${port}`.underline.cyan);
+      const socket = require("socket.io");
+      const io = socket(server);
+    });
+  })
+  .catch((err) => console.log(`an error ${err} occured.`.red));
