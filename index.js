@@ -1,5 +1,9 @@
 require("dotenv").config();
 require("colors");
+const User = require("./models/user");
+const Cryptr = require("cryptr");
+const cryptr = new Cryptr(process.env.SECRET);
+const Chat = require("./models/chat");
 const socket = require("socket.io");
 const express = require("express");
 const app = express();
@@ -54,11 +58,34 @@ io.on("connection", (socket) => {
     socket.join(room);
     console.log("user joined room");
   });
-  socket.on("typing", (room) => {
-    socket.in(room).emit("typing");
+  socket.on("typing", (room, user) => {
+    socket.in(room).emit("typing", user);
   });
-  socket.on("stop typing", (room) => {
-    socket.in(room).emit("stop typing");
+  socket.on("stop typing", (room, user) => {
+    socket.in(room).emit("stop typing", user);
+  });
+  socket.on("update chats", (userId) => {
+    Chat.find({ users: { $elemMatch: { $eq: userId } } })
+      .populate("users", "-password")
+      .populate("admin", "-password")
+      .populate({ path: "lastMessage" })
+      .sort({ updatedAt: -1 })
+      .then(async (results) => {
+        results = await User.populate(results, {
+          path: "lastMessage.sender",
+          select: "name email pic",
+        });
+        results = results.map((r) => {
+          if (!r._doc.lastMessage) return { ...r._doc };
+          else
+            return {
+              ...r._doc,
+              lastMessageContent: cryptr.decrypt(r._doc.lastMessage?.content),
+            };
+        });
+        socket.emit("chats updated", results);
+      })
+      .catch((err) => console.log(err));
   });
   socket.on("new message", (newMessage) => {
     let chat = newMessage.chat;

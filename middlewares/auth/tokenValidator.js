@@ -7,7 +7,7 @@ const tokenValidator = async (req, res, next) => {
     try {
       //console.log("inside it");
       const authToken = await req.headers.authorisation;
-      req.user = jwt.verify(authToken, "BOOST_IS_THE_SECRET_OF_MY_ENERGY");
+      req.user = jwt.verify(authToken, process.env.JWT_SECRET);
       next();
     } catch (err) {
       //console.log(err.message);
