@@ -2,7 +2,6 @@ require("dotenv").config();
 require("colors");
 const User = require("./models/user");
 const Cryptr = require("cryptr");
-const cryptr = new Cryptr(process.env.SECRET);
 const Chat = require("./models/chat");
 const socket = require("socket.io");
 const express = require("express");
@@ -25,7 +24,9 @@ mongoose
   })
   .catch((err) => console.log(`an error ${err} occured.`.red));
 
-app.use(CORS());
+app.use(CORS({
+  origin: ["http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:5000", "http://127.0.0.1:5000","https://chatter-beige-sigma.vercel.app"]
+}));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -75,14 +76,7 @@ io.on("connection", (socket) => {
           path: "lastMessage.sender",
           select: "name email pic",
         });
-        results = results.map((r) => {
-          if (!r._doc.lastMessage) return { ...r._doc };
-          else
-            return {
-              ...r._doc,
-              lastMessageContent: cryptr.decrypt(r._doc.lastMessage?.content),
-            };
-        });
+
         socket.emit("chats updated", results);
       })
       .catch((err) => console.log(err));

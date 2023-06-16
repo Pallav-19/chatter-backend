@@ -6,7 +6,7 @@ const cryptr = new Cryptr(process.env.SECRET);
 const createMessage = async (req, res) => {
   Message.create({
     sender: req.user.userId,
-    content: cryptr.encrypt(req.body.content),
+    content: req.body.content,
     chat: req.body.chatId,
   })
     .then(async (newMessage) => {
@@ -29,10 +29,7 @@ const createMessage = async (req, res) => {
         },
       ]);
 
-      newMessage = {
-        ...newMessage._doc,
-        content: cryptr.decrypt(newMessage._doc.content),
-      };
+    
 
       res
         .json({

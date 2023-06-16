@@ -8,13 +8,8 @@ const getMessages = async (req, res) => {
     .populate([{ path: "sender", select: "-password" }, { path: "chat" }])
     .then((allmessages) => {
       if (allmessages) {
-        allmessages = allmessages.map((message) => {
-          return {
-            ...message._doc,
-            content: cryptr.decrypt(message._doc.content),
-          };
-        });
-        //console.log(allmessages);
+      
+        
         res
           .json({
             message: "messages found",
