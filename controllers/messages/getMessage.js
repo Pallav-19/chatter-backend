@@ -1,6 +1,5 @@
 const Chat = require("../../models/chat");
-const Cryptr = require("cryptr");
-const cryptr = new Cryptr(process.env.SECRET);
+  
 const Message = require("../../models/message");
 const getMessages = async (req, res) => {
   const chatId = req.params.chatId;

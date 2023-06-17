@@ -1,8 +1,7 @@
 const Message = require("../../models/message");
 const User = require("../../models/user");
 const Chat = require("../../models/chat");
-const Cryptr = require("cryptr");
-const cryptr = new Cryptr(process.env.SECRET);
+  
 const createMessage = async (req, res) => {
   Message.create({
     sender: req.user.userId,

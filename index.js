@@ -1,8 +1,7 @@
 require("dotenv").config();
 require("colors");
 const User = require("./models/user");
-const Cryptr = require("cryptr");
-const Chat = require("./models/chat");
+ const Chat = require("./models/chat");
 const socket = require("socket.io");
 const express = require("express");
 const app = express();
