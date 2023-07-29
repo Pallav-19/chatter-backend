@@ -45,7 +45,7 @@ const signup = async (req, res, next) => {
                     );
                     success = true;
                     res.status(201).json({
-                      userData: user,
+                      userData: { ...user, password: '' },
                       message: "You have registered successfully!",
                       success: success,
                       token: token,
