@@ -1,7 +1,7 @@
 require("dotenv").config();
 require("colors");
 const User = require("./models/user");
- const Chat = require("./models/chat");
+const Chat = require("./models/chat");
 const socket = require("socket.io");
 const express = require("express");
 const app = express();
@@ -24,11 +24,11 @@ mongoose
   .catch((err) => console.log(`an error ${err} occured.`.red));
 
 app.use(CORS({
-  origin: ["http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:5000", "http://127.0.0.1:5000","https://chatter-beige-sigma.vercel.app"]
+  origin: ["http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:5000", "http://127.0.0.1:5000", "https://chatter-beige-sigma.vercel.app"]
 }));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
+app.get("/", (req, res) => { res.json({ message: "welcome" }) })
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/chat", chatRoutes);
@@ -86,7 +86,7 @@ io.on("connection", (socket) => {
       return console.log("not defined");
     }
     chat.users.forEach((user) => {
-      if (user._id == newMessage.sender._id) {
+      if (user._id === newMessage.sender._id) {
         return;
       }
       socket.in(user._id).emit("message received", newMessage);
